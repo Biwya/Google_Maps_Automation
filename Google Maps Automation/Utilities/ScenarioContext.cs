@@ -1,34 +1,34 @@
 public class ScenarioContext 
 {
-    private static ScenarioContext instance;
-    private  Dictionary<ContextKeys, dynamic> context;
+    private static ScenarioContext s_instance;
+    private  Dictionary<ContextKeys, dynamic> _context;
 
     private ScenarioContext()
     {
-        context = new Dictionary<ContextKeys, object>();
+        _context = new Dictionary<ContextKeys, object>();
     }
 
     public static ScenarioContext GetInstance()
     {
-        if (instance == null)
+        if (s_instance == null)
         {
-            instance = new ScenarioContext();
+            s_instance = new ScenarioContext();
         }
-        return instance;
+        return s_instance;
     }
 
     public void Save(ContextKeys key, dynamic value)
     {
-        context.Add(key, value);
+        _context.Add(key, value);
     }
 
     public dynamic Get(ContextKeys key)
     {
-        return context.TryGetValue(key, out dynamic value) ? value : null;
+        return _context.TryGetValue(key, out dynamic value) ? value : null;
     }
 
     public void ClearContext()
     {
-        context.Clear();
+        _context.Clear();
     }
 }
