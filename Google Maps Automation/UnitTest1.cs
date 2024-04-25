@@ -8,24 +8,17 @@ namespace Google_Maps_Automation;
 [TestFixture]
 public class Tests : PageTest
 {
+
+    ScenarioContext scenarioContext = ScenarioContext.GetInstance();
+
     [Test]
-    public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
+    public async Task CheckContext()
     {
-        await Page.GotoAsync("https://playwright.dev");
-
-        // Expect a title "to contain" a substring.
-        await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
-
-        // create a locator
-        var getStarted = Page.GetByRole(AriaRole.Link, new() { Name = "Get started" });
-
-        // Expect an attribute "to be strictly equal" to the value.
-        await Expect(getStarted).ToHaveAttributeAsync("href", "/docs/intro");
-
-        // Click the get started link.
-        await getStarted.ClickAsync();
-
-        // Expects the URL to contain intro.
-        await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
+        IPage Page = await base.Context.NewPageAsync().ConfigureAwait(continueOnCapturedContext: false);
+        scenarioContext.Save(ContextKeys.PAGE, Page);
+        IPage CheckedPage = scenarioContext.Get(ContextKeys.PAGE);
+        Assert.NotNull(CheckedPage);
+        await CheckedPage.GotoAsync("https://playwright.dev");
+        await Expect(CheckedPage).ToHaveTitleAsync(new Regex("Playwright"));
     }
 }
