@@ -20,22 +20,22 @@ namespace Google_Maps_Automation.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "1.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Open Playwright")]
-    public partial class OpenPlaywrightFeature
+    [NUnit.Framework.DescriptionAttribute("Check the UI functionality of Google Maps")]
+    public partial class CheckTheUIFunctionalityOfGoogleMapsFeature
     {
         
         private Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-#line 1 "FrameworkCheck.feature"
+#line 1 "GoogleMapsFlows.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = Reqnroll.TestRunnerManager.GetTestRunnerForAssembly(null, NUnit.Framework.TestContext.CurrentContext.WorkerId);
-            Reqnroll.FeatureInfo featureInfo = new Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Open Playwright", "This feature should check if framework configuration works", ProgrammingLanguage.CSharp, featureTags);
+            Reqnroll.FeatureInfo featureInfo = new Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Check the UI functionality of Google Maps", null, ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         
@@ -74,14 +74,14 @@ namespace Google_Maps_Automation.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Test the framework setup")]
-        public async System.Threading.Tasks.Task TestTheFrameworkSetup()
+        [NUnit.Framework.DescriptionAttribute("The user denies the Google cookies")]
+        public async System.Threading.Tasks.Task TheUserDeniesTheGoogleCookies()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("Test the framework setup", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 5
-  this.ScenarioInitialize(scenarioInfo);
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("The user denies the Google cookies", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 3
+this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -90,14 +90,24 @@ namespace Google_Maps_Automation.Features
             else
             {
                 await this.ScenarioStartAsync();
+#line 4
+    await testRunner.GivenAsync("the user accesses the \'https://www.google.com/maps\' link", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 5
+    await testRunner.WhenAsync("the page loads", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
+#line hidden
 #line 6
-    await testRunner.GivenAsync("the user accesses the \'https://playwright.dev/\' link", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
+    await testRunner.ThenAsync("the url starts with \'https://consent.google.com/m?continue=https://www.google.com" +
+                        "/maps\'", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 7
-    await testRunner.WhenAsync("the user clicks on the \'Get started\' link", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("the user clicks the option to deny cookies", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 8
-    await testRunner.ThenAsync("the user is redirected to the page with url ending with \"intro\"", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("the page loads", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 9
+    await testRunner.ThenAsync("the url is \'https://www.google.com/maps\'", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

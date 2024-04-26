@@ -9,18 +9,13 @@ namespace GMAutomation;
 public class FrameworkCheckSteps
 {
 
-    private PlaywrightSiteActions _playwrightSiteActions;
+    private readonly PlaywrightSiteActions _playwrightSiteActions;
+    private readonly CommonPageActions _commonPageActions;
 
-    public FrameworkCheckSteps(PlaywrightSiteActions playwrightSiteActions) 
+    public FrameworkCheckSteps(PlaywrightSiteActions playwrightSiteActions, CommonPageActions commonPageActions) 
     {
         _playwrightSiteActions = playwrightSiteActions;
-    }
-
-    [Given("the Playwright page is opened")]
-    public async Task NavigateToPlaywrightMainPage()
-    {
-        await _playwrightSiteActions.UserInputsLink("https://playwright.dev/");
-        _playwrightSiteActions.CheckUserIsOnUrl("https://playwright.dev/");
+        _commonPageActions = commonPageActions;
     }
 
     [When("the user clicks on the 'Get started' link")]
@@ -32,6 +27,6 @@ public class FrameworkCheckSteps
     [Then("the user is redirected to the page with url ending with {string}")]
     public void UserRedirectedToUrl(string urlEnding)
     {
-        _playwrightSiteActions.CheckUserIsOnUrl("https://playwright.dev/docs/intro");
+        _commonPageActions.CheckUserIsOnUrl("https://playwright.dev/docs/intro");
     }
 }
