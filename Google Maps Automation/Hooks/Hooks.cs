@@ -15,5 +15,6 @@ public class Hooks
         var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{Headless = false});
         var browserContext = await browser.NewContextAsync();
         Page = await browserContext.NewPageAsync();
+        await Page.SetViewportSizeAsync(1920, 1080);
     }
 }
