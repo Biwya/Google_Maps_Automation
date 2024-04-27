@@ -17,4 +17,10 @@ public class Hooks
         Page = await browserContext.NewPageAsync();
         await Page.SetViewportSizeAsync(1920, 1080);
     }
+
+    [After]
+    public async Task CloseBrowser()
+    {
+        await Page.CloseAsync();
+    }
 }
