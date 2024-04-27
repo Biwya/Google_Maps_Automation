@@ -81,7 +81,7 @@ namespace Google_Maps_Automation.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("The user denies the Google cookies", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
-this.ScenarioInitialize(scenarioInfo);
+  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -108,6 +108,48 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 9
     await testRunner.ThenAsync("the url is \'https://www.google.com/maps\'", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("The user changes language of the maps")]
+        [NUnit.Framework.TestCaseAttribute("English", null)]
+        [NUnit.Framework.TestCaseAttribute("German", null)]
+        public async System.Threading.Tasks.Task TheUserChangesLanguageOfTheMaps(string language, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("language", language);
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("The user changes language of the maps", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 11
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 12
+    await testRunner.GivenAsync("the user accesses the \'https://www.google.com/maps\' link", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 13
+    await testRunner.AndAsync("the user continues by denying Google cookies", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 14
+    await testRunner.WhenAsync("the user opens the burger menu", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 15
+    await testRunner.AndAsync("the user clicks on the Language button", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 16
+    await testRunner.AndAsync(string.Format("the user selects the \'{0}\' language", language), ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 17
+    await testRunner.ThenAsync(string.Format("the page is displayed in \'{0}\' language", language), ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

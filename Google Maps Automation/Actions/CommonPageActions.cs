@@ -37,4 +37,32 @@ public class CommonPageActions
         await _page.WaitForLoadStateAsync();
     }
 
+    public async Task WaitForPageNetworkIdle()
+    {
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+    }
+
+    public async Task WaitForConditionToBeTrue(Task<bool> condition, int numberOfRetries = 10, int waitIntervalMs = 200)
+    {
+        for (int retry = 0; retry < numberOfRetries; retry++)
+        {
+            if (condition.Result){
+                break;
+            }
+            await _page.WaitForTimeoutAsync(waitIntervalMs);
+        }
+    }
+
+    public void CheckPageDisplayLanguage(string language)
+    {
+        string languageId;
+        switch (language.ToLower()) 
+        {
+            case "english": languageId = "en"; break;
+            case "german": languageId = "de"; break;
+            default: throw new ArgumentException($"The page cannot be chacked for the following language {language};");
+        }
+        Assert.True(_page.Locator("//html").GetAttributeAsync("lang").Result.Contains(languageId));
+    }
+
 }

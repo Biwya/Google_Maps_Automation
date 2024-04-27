@@ -9,7 +9,7 @@ public class GoogleCookiesActions
         _googleCookiesPage = googleCookiesPage;
     }
 
-    public async Task userDeniesCookies()
+    public async Task UserDeniesCookies()
     {
         await _googleCookiesPage.DenyCookiesButton.ClickAsync();
     }
