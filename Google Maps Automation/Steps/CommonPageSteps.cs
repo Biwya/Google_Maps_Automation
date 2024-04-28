@@ -27,24 +27,18 @@ public class CommonPageSteps
     [Then("the url starts with {string}")]
     public void UrlStartsWith(string urlStart)
     {
-        _commonPageActions.CheckUserIsOnUrlStartingWith(urlStart);
+        _commonPageActions.AssertUserIsOnUrlStartingWith(urlStart);
     }
 
     [Then("the url is {string}")]
     public void UrlIs(string url)
     {
-        _commonPageActions.CheckUserIsOnUrl(url);
+        _commonPageActions.AssertUserIsOnUrl(url);
     }
 
     [Then("the url contains {string}")]
     public void UrlContains(string urlSection)
     {
-        _commonPageActions.CheckUserIsOnUrlContaining(urlSection);
-    }
-
-    [Then("the page is displayed in {string} language")]
-    public void CheckPageLanguage(string language)
-    {
-        _commonPageActions.CheckPageDisplayLanguage(language);
+        _commonPageActions.AssertUserIsOnUrlContaining(urlSection);
     }
 }

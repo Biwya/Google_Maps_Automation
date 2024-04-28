@@ -20,3 +20,19 @@ Feature: Check the UI functionality of Google Maps
       | language |
       | English  |
       | German   |
+
+  Scenario Outline: The user checks for transport route
+    Given the user accesses the 'https://www.google.com/maps' link
+    And the user continues by denying Google cookies
+    And google maps is displayed in 'English'
+    When the user clicks on Directions button
+    And the user inputs 'Berlin central train station' location as STARTING_POINT
+    And the user inputs 'Berlin airport' location as DESTINATION
+    And the user selects <transportation_type> transportation option
+    Then the user sees <comparator> <number_of_routes> route
+
+    Examples:
+      | transportation_type | comparator | number_of_routes |
+      | TRANSIT             | AT_MOST    |                6 |
+      | DRIVING             | AT_LEAST   |                1 |
+      | FLIGHT              | EXACTLY    |                0 |
