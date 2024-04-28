@@ -29,7 +29,7 @@ Feature: Check the UI functionality of Google Maps
     And the user inputs 'Berlin central train station' location as STARTING_POINT
     And the user inputs 'Berlin airport' location as DESTINATION
     And the user selects <transportation_type> transportation option
-    Then the user sees <comparator> <number_of_routes> route
+    Then the user sees <comparator> <number_of_routes> routes
 
     Examples:
       | transportation_type | comparator | number_of_routes |

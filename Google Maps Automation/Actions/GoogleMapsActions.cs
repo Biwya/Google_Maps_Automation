@@ -1,4 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Playwright;
+using NUnit.Framework.Constraints;
 
 namespace GMAutomation;
 
@@ -94,20 +96,21 @@ public class GoogleMapsActions
         }
     }
 
+    public async Task ClearDirectionInput(Direction direction) {
+        await InputDirection("", direction);
+    }
+
     public async Task ClickSearchDirection(Direction direction)
     {
         switch (direction)
         {
             case Direction.STARTING_POINT:
-                await _googleMapsPage.DirectionsStartingPointInput.ClickAsync();
                 await _googleMapsPage.DirectionStartingPointSearchButton.ClickAsync();
                 break;
             case Direction.DESTINATION:
-                await _googleMapsPage.DirectionsDestinationInput.ClickAsync();
                 await _googleMapsPage.DirectionsDestinationSearchButton.ClickAsync();
                 break;
             case Direction.LOCATION:
-                await _googleMapsPage.SearchBox.ClickAsync();
                 await _googleMapsPage.SearchButton.ClickAsync();
                 break;
             default:
@@ -124,21 +127,115 @@ public class GoogleMapsActions
             case TransportationOption.FLIGHT: await _googleMapsPage.TravelByFlightButton.ClickAsync(); break;
             default: throw new ArgumentException($"{transportationOption} is not defined/implemented to be selected by the user");
         }
-        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.TravelRoutes.IsVisibleAsync());
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.TravelRoutes.First.IsVisibleAsync());
     }
 
     public async void AssertNumberOfRoutes(Comparator comparator, int comparedValue)
     {
         await _commonPageActions.WaitForPageNetworkIdle();
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.TravelRoutes.First.IsVisibleAsync());
         var travelRoutes = await _googleMapsPage.TravelRoutes.AllAsync();
         int numberOfRoutes = travelRoutes.Count;
+        AssertComparisonOfNumericValues(comparator, comparedValue, numberOfRoutes);
+    }
+
+    public async void AssertNumberOfSearchResults(Comparator comparator, int comparedValue)
+    {
+        await _commonPageActions.WaitForPageNetworkIdle();
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.LocationSearchResults.First.IsVisibleAsync());
+        var searchResults = await _googleMapsPage.LocationSearchResults.AllAsync();
+        int numberOfSearchResults = searchResults.Count;
+        AssertComparisonOfNumericValues(comparator, comparedValue, numberOfSearchResults);
+    }
+
+    public async Task ReverseDestinations()
+    {
+        await _googleMapsPage.ReverseDestinationsButton.ClickAsync();
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.TravelRoutes.First.IsVisibleAsync());
+        await _commonPageActions.WaitForPageNetworkIdle();
+    }
+
+    public async Task ClickOnCloseDirectionsScreen()
+    {
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.CloseDirectionsButton.IsVisibleAsync());
+        await _googleMapsPage.CloseDirectionsButton.ClickAsync();
+        await _commonPageActions.WaitForPageLoad();
+    }
+
+    public async Task AssertSeesGeneralSearchInputField()
+    {
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.SearchBox.IsVisibleAsync());
+        Assert.That(_googleMapsPage.SearchBox.IsVisibleAsync().Result, Is.True);
+    }
+
+    public async Task ClickSearchButton()
+    {
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.SearchButton.IsVisibleAsync());
+        await _googleMapsPage.SearchButton.ClickAsync();
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.LocationSearchResults.First.IsVisibleAsync());
+    }
+
+    public async Task OpenSearchFilters()
+    {
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.SearchFiltersButton.IsVisibleAsync());
+        await _googleMapsPage.SearchFiltersButton.ClickAsync();
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.RatingFilterSection.IsVisibleAsync());
+    }
+
+    public async Task SelectRatingFilter(float starRating)
+    {
+        await _googleMapsPage.RatingFilterButton.ClickAsync();
+        switch (starRating)
+        {
+            case 2.0f: await _googleMapsPage.RatingSelectionMenu.Locator("//div[@data-index='1']").ClickAsync(); break;
+            case 2.5f: await _googleMapsPage.RatingSelectionMenu.Locator("//div[@data-index='2']").ClickAsync(); break;
+            case 3.0f: await _googleMapsPage.RatingSelectionMenu.Locator("//div[@data-index='3']").ClickAsync(); break;
+            case 3.5f: await _googleMapsPage.RatingSelectionMenu.Locator("//div[@data-index='4']").ClickAsync(); break;
+            case 4.0f: await _googleMapsPage.RatingSelectionMenu.Locator("//div[@data-index='5']").ClickAsync(); break;
+            case 4.5f: await _googleMapsPage.RatingSelectionMenu.Locator("//div[@data-index='6']").ClickAsync(); break;
+            default: throw new ArgumentException($"Invalid or not accounted for star rating of {starRating}");
+        }
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.RatingFilterButton.IsVisibleAsync());
+        var selectedStarRating = await _googleMapsPage.RatingFilterButton.Locator("//span[@aria-label]").GetAttributeAsync("aria-label");
+        Assert.That(selectedStarRating.Contains(starRating.ToString()), Is.True);
+    }
+
+    public async Task ConfirmFilteringOptions()
+    {
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.FilteringDoneButton.IsVisibleAsync());
+        await _googleMapsPage.FilteringDoneButton.ClickAsync();
+        await _commonPageActions.WaitForPageNetworkIdle();
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.SearchBox.IsVisibleAsync());
+    }
+
+    public async Task AssertRatingOfEachLocation(Comparator comparator, float starRating)
+    {
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.LocationSearchResults.First.IsVisibleAsync());
+        var availableLocations = await _googleMapsPage.LocationSearchResults.AllAsync();
+        for (int i = 0; i < availableLocations.Count; i++)
+        {
+            string locationRatingText = await availableLocations[i].Locator("//span[contains(@aria-label, 'stars')]").GetAttributeAsync("aria-label");
+            float locationRating = Convert.ToSingle(locationRatingText.Substring(0,3));
+            AssertComparisonOfNumericValues(comparator, starRating, locationRating);
+        }
+    }
+
+    public async Task ClickOnCloseSearchLocationButton()
+    {
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.CloseSearchLocationButton.IsVisibleAsync());
+        await _googleMapsPage.CloseSearchLocationButton.ClickAsync();
+        await _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.DirectionsButton.First.IsVisibleAsync());
+    }
+
+    private void AssertComparisonOfNumericValues(Comparator comparator, IComparable expectedValue, IComparable actualValue) 
+    {
         switch (comparator)
         {
             case Comparator.IS:
             case Comparator.EQUAL_TO:
-            case Comparator.EXACTLY: Assert.That(comparedValue, Is.EqualTo(numberOfRoutes), $"{numberOfRoutes} did not match the expected {comparedValue}"); break;
-            case Comparator.AT_LEAST: Assert.That(numberOfRoutes, Is.AtLeast(comparedValue), $"{numberOfRoutes} is not equal or more than the expected {comparedValue}"); break;
-            case Comparator.AT_MOST: Assert.That(numberOfRoutes, Is.AtMost(comparedValue), $"{numberOfRoutes} is not equal or less than the expected {comparedValue}"); break;
+            case Comparator.EXACTLY: Assert.That(actualValue, Is.EqualTo(expectedValue), $"{actualValue} did not match the expected {expectedValue}"); break;
+            case Comparator.AT_LEAST: Assert.That(actualValue, Is.AtLeast(expectedValue), $"{actualValue} is not equal or more than the expected {expectedValue}"); break;
+            case Comparator.AT_MOST: Assert.That(actualValue, Is.AtMost(expectedValue), $"{actualValue} is not equal or less than the expected {expectedValue}"); break;
             default: throw new ArgumentException($"{comparator} is not valid or was not accounted for numeric comparison of routes");
         }
     }
