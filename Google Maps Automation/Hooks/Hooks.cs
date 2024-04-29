@@ -1,3 +1,4 @@
+using GMAutoamtion;
 using Microsoft.Playwright;
 using Reqnroll;
 
@@ -12,7 +13,14 @@ public class Hooks
     public async Task SetupBrowser()
     {
         var playwright = await Playwright.CreateAsync();
-        var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions{Headless = false});
+        IBrowser browser;
+        switch (EnvironmentConfig.GetBrowserType().ToLower())
+        {
+            case "chrome": browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = EnvironmentConfig.GetHeadless() }); break;
+            case "firefox": browser = await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { Headless = EnvironmentConfig.GetHeadless() }); break;
+            case "webkit": browser = await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { Headless = EnvironmentConfig.GetHeadless() }); break;
+            default: browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = EnvironmentConfig.GetHeadless() }); break;
+        }
         var browserContext = await browser.NewContextAsync();
         Page = await browserContext.NewPageAsync();
         await Page.SetViewportSizeAsync(1920, 1080);
