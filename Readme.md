@@ -30,7 +30,7 @@ The goal of this framework was to check the main functionalities of Google Maps 
     * If `pwsh` is not recognised, then you might not have powershell installed on the device. If you have it installed, then try replacing `pwsh` with `powershell` in the command above
     * If the issue states that running scripts is disabled on your device, then try to change the execution policy permissions on your device, by following the guide: [about Execution Policies - PowerShell | Microsoft Learn](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.4)
 6. Run the test by executing `dotnet test` command in your terminal. Alternatively, the tests can be run using the according button in a .NET IDE.
-7. After the tests are done, generate and see the test report by executing `allure serve` command in your terminal.
+7. After the tests are done, generate and see the test report by executing `allure serve` command in your terminal. If a test failed, a screnshot will be captured and cand be seen under the Tear Down section of the failed scenario.
 
 ---
 
