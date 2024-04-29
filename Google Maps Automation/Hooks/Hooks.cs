@@ -1,3 +1,4 @@
+using Allure.Net.Commons;
 using GMAutoamtion;
 using Microsoft.Playwright;
 using Reqnroll;
@@ -8,6 +9,12 @@ namespace GMAutomation;
 public class Hooks
 {
     public IPage Page { get; private set; } = null;
+    private readonly ScenarioContext _scenarioContext;
+
+    public Hooks(ScenarioContext scenarioContext)
+    {
+        _scenarioContext = scenarioContext;
+    }
 
     [Before]
     public async Task SetupBrowser()
@@ -29,6 +36,26 @@ public class Hooks
     [After]
     public async Task CloseBrowser()
     {
+        if (_scenarioContext.TestError != null)
+        {
+            await HandleFailedTest();
+        }
         await Page.CloseAsync();
+    }
+
+    private async Task HandleFailedTest()
+    {
+        string screenshotPath = $"../../../../allure-results/{_scenarioContext.ScenarioInfo.Title}.png";
+        await Page.ScreenshotAsync(new()
+        {
+            Path = screenshotPath,
+            FullPage = true,
+        });
+
+        AllureApi.AddAttachment(
+            _scenarioContext.ScenarioInfo.Title,
+            "image/png",
+            File.ReadAllBytes(screenshotPath)
+        );
     }
 }
