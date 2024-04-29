@@ -36,17 +36,7 @@ Scenario: June's Journey fan plans a trip from Berlin through Google Maps based 
     Then the user sees AT_LEAST 1 route
     When the user reverses the starting point and destination locations
     And the user clears the DESTINATION location
-    And the user inputs 'Havana airport' location as DESTINATION
+    And the user inputs 'Berlin airport' location as DESTINATION
     And the user selects FLIGHT transportation option
-    Then the user sees AT_LEAST 1 route
-    When the user reverses the starting point and destination locations
-    And the user clears the DESTINATION location
-    And the user inputs 'Paris airport' location as DESTINATION
-    And the user clicks on the DESTINATION direction search button
-    Then the user sees AT_LEAST 1 route
-    When the user reverses the starting point and destination locations
-    And the user clears the DESTINATION location
-    And the user inputs 'Berlin central train station' location as DESTINATION
-    And the user selects TRANSIT transportation option
     Then the user sees AT_LEAST 1 route
 

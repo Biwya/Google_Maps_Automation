@@ -42,14 +42,14 @@ public class CommonPageActions
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
-    public async Task WaitForConditionToBeTrue(Task<bool> condition, int numberOfRetries = 10, int waitIntervalMs = 200)
+    public void WaitForConditionToBeTrue(Task<bool> condition, int numberOfRetries = 10, int waitIntervalMs = 200)
     {
         for (int retry = 0; retry < numberOfRetries; retry++)
         {
             if (condition.Result){
                 break;
             }
-            await _page.WaitForTimeoutAsync(waitIntervalMs);
+            _page.WaitForTimeoutAsync(waitIntervalMs).Wait();
         }
     }
 }
