@@ -132,7 +132,7 @@ public class GoogleMapsActions
         _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.TravelRoutes.First.IsVisibleAsync());
     }
 
-    public async void AssertNumberOfRoutes(Comparator comparator, int comparedValue)
+    public async Task AssertNumberOfRoutes(Comparator comparator, int comparedValue)
     {
         while (!_commonPageActions.WaitForPageNetworkIdle().IsCompletedSuccessfully)
         {
@@ -143,7 +143,7 @@ public class GoogleMapsActions
         AssertComparisonOfNumericValues(comparator, comparedValue, numberOfRoutes);
     }
 
-    public async void AssertNumberOfSearchResults(Comparator comparator, int comparedValue)
+    public async Task AssertNumberOfSearchResults(Comparator comparator, int comparedValue)
     {
         while (!_commonPageActions.WaitForPageNetworkIdle().IsCompletedSuccessfully){
             continue;

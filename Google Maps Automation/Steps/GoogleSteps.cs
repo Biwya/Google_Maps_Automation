@@ -135,15 +135,15 @@ public class GoogleSteps
     }
 
     [Then("the user sees {} {int} route(s)")]
-    public void UserSeesNumberOfRoutes(Comparator comparator, int numberOfRoutes)
+    public async Task UserSeesNumberOfRoutes(Comparator comparator, int numberOfRoutes)
     {
-        _googleStepsActions.AssertNumberOfRoutes(comparator, numberOfRoutes);
+        await _googleStepsActions.AssertNumberOfRoutes(comparator, numberOfRoutes);
     }
 
     [Then("the user sees {} {int} search results")]
-    public void UserSeesNumberOfSearchResults(Comparator comparator, int numberOfSearchResults)
+    public async Task UserSeesNumberOfSearchResults(Comparator comparator, int numberOfSearchResults)
     {
-        _googleStepsActions.AssertNumberOfSearchResults(comparator, numberOfSearchResults);
+        await _googleStepsActions.AssertNumberOfSearchResults(comparator, numberOfSearchResults);
     }
 
     [Then("the user sees the general search input field")]
