@@ -272,3 +272,5 @@ __pycache__/
 
 # Custom files
 *.feature.cs 
+*allure-report
+*allure-results
