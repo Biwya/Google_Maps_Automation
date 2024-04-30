@@ -44,8 +44,9 @@ public class GoogleMapsActions
         _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.EnglishLanguage.IsHiddenAsync());
     }
 
-    public bool CheckPageDisplayLanguage(string language)
+    public async Task<bool> CheckPageDisplayLanguage(string language)
     {
+        var currentLanguage = await _googleMapsPage.PageHtml.GetAttributeAsync("lang");
         string languageId;
         switch (language.ToLower())
         {
@@ -53,23 +54,25 @@ public class GoogleMapsActions
             case "german": languageId = "de"; break;
             default: throw new ArgumentException($"The page cannot be chacked for the following language {language};");
         }
-        return _googleMapsPage.PageHtml.GetAttributeAsync("lang").Result.Contains(languageId);
+        return currentLanguage.Contains(languageId);
     }
 
-    public void AssertPageLanguageDisplayed(string language, bool displayed)
+    public async Task AssertPageLanguageDisplayed(string language, bool displayed)
     {
-        Assert.That(CheckPageDisplayLanguage(language), Is.EqualTo(displayed));
+        var isExpectedLanguage = await CheckPageDisplayLanguage(language);
+        Assert.That(isExpectedLanguage, Is.EqualTo(displayed));
     }
 
     public async Task GoogleMapsToBeDisplayedIn(string language)
     {
-        await ClickBurgerMenu();
-        if (!CheckPageDisplayLanguage(language))
+        var isExpectedLanguage = await CheckPageDisplayLanguage(language);
+        if (!isExpectedLanguage)
         {
+            await ClickBurgerMenu();
             AssertSettingsMenuIsVisible();
             await ClickLanguageButton();
             await SelectLanguage(language);
-            AssertPageLanguageDisplayed(language, true);
+            await AssertPageLanguageDisplayed(language, true);
         }
     }
 

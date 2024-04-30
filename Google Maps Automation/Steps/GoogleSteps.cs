@@ -128,9 +128,9 @@ public class GoogleSteps
     }
 
     [Then("the page is displayed in {string} language")]
-    public void CheckPageLanguage(string language)
+    public async Task CheckPageLanguage(string language)
     {
-        _googleStepsActions.AssertPageLanguageDisplayed(language, true);
+        await _googleStepsActions.AssertPageLanguageDisplayed(language, true);
     }
 
     [Then("the user sees {} {int} route(s)")]
