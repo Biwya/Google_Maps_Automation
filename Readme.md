@@ -26,11 +26,12 @@ The goal of this framework was to check the main functionalities of Google Maps 
 2. Install Allure Reporting tool following the official steps: https://allurereport.org/docs/gettingstarted-installation/
 3. Clone this framework using git. For example, open any empty folder where you want to have this framework installed, open git bash in the folder and run `git clone <insert_link_to_this_repo>`
 4. Build the project by executing `dotnet build` command in your terminal opened at the location of the cloned project. Alternatively the build command can be run from any IDE supporting .NET development.
-5. Use the command `pwsh bin/Debug/net8.0/playwright.ps1 install` to install the browser web drivers for Playwright. Note: You can have sever types of errors. For example:
+5. Change the directory to Google Maps Automation by running `cd '.\Google Maps Automation\'`
+6. Use the command `pwsh bin/Debug/net8.0/playwright.ps1 install` to install the browser web drivers for Playwright. Note: You can have sever types of errors. For example:
     * If `pwsh` is not recognised, then you might not have powershell installed on the device. If you have it installed, then try replacing `pwsh` with `powershell` in the command above
     * If the issue states that running scripts is disabled on your device, then try to change the execution policy permissions on your device, by following the guide: [about Execution Policies - PowerShell | Microsoft Learn](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.4)
-6. Run the test by executing `dotnet test` command in your terminal. Alternatively, the tests can be run using the according button in a .NET IDE.
-7. After the tests are done, generate and see the test report by executing `allure serve` command in your terminal. If a test failed, a screnshot will be captured and cand be seen under the Tear Down section of the failed scenario.
+7. Run the test by executing `dotnet test` command in your terminal. Alternatively, the tests can be run using the according button in a .NET IDE. 
+8. After the tests are done, move one folder up by executing `cd ..` and generate and see the test report by executing `allure serve` command in your terminal. If a test failed, a screenshot will be captured and can be seen under the Tear Down section of the failed scenario.
 
 ---
 
