@@ -10,7 +10,7 @@ Feature: Check the UI functionality of Google Maps
 
   Scenario Outline: The user changes language of the maps
     Given the user accesses the 'https://www.google.com/maps' link
-    And the user continues by denying Google cookies
+    And the user is on Google Maps Page
     When the user opens the burger menu
     And the user clicks on the Language button
     And the user selects the '<language>' language
@@ -23,7 +23,7 @@ Feature: Check the UI functionality of Google Maps
 
   Scenario Outline: The user checks for transport route
     Given the user accesses the 'https://www.google.com/maps' link
-    And the user continues by denying Google cookies
+    And the user is on Google Maps Page
     And google maps is displayed in 'English'
     When the user clicks on Directions button
     And the user inputs 'Berlin central train station' location as STARTING_POINT

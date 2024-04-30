@@ -21,7 +21,7 @@ public class GoogleMapsActions
         await _googleMapsPage.HamburgerMenu.ClickAsync();
     }
 
-    public async Task AssertSettingsMenuIsVisible()
+    public void AssertSettingsMenuIsVisible()
     {
         _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.SettingsMenu.IsVisibleAsync());
         Assert.That(_googleMapsPage.SettingsMenu.IsVisibleAsync().Result, Is.True);
@@ -66,7 +66,7 @@ public class GoogleMapsActions
         await ClickBurgerMenu();
         if (!CheckPageDisplayLanguage(language))
         {
-            await AssertSettingsMenuIsVisible();
+            AssertSettingsMenuIsVisible();
             await ClickLanguageButton();
             await SelectLanguage(language);
             AssertPageLanguageDisplayed(language, true);
@@ -167,7 +167,7 @@ public class GoogleMapsActions
         await _commonPageActions.WaitForPageLoad();
     }
 
-    public async Task AssertSeesGeneralSearchInputField()
+    public void AssertSeesGeneralSearchInputField()
     {
         _commonPageActions.WaitForConditionToBeTrue(_googleMapsPage.SearchBox.IsVisibleAsync());
         Assert.That(_googleMapsPage.SearchBox.IsVisibleAsync().Result, Is.True);
