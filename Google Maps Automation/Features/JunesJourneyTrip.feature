@@ -1,6 +1,8 @@
+@E2E
 Feature: Recreate trips using Google Maps based on June's Journey
 
-Scenario: June's Journey fan plans a trip from Berlin through Google Maps based on the first chapters of the game
+  @JunesJourney
+  Scenario: June's Journey fan plans a trip from Berlin through Google Maps based on the first chapters of the game
     Given the user accesses the 'https://www.google.com/maps' link
     And the user is on Google Maps Page
     And google maps is displayed in 'English'
@@ -39,4 +41,3 @@ Scenario: June's Journey fan plans a trip from Berlin through Google Maps based 
     And the user inputs 'Berlin airport' location as DESTINATION
     And the user selects FLIGHT transportation option
     Then the user sees AT_LEAST 1 route
-
