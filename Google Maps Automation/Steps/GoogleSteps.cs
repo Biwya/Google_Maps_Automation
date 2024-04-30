@@ -22,13 +22,12 @@ public class GoogleSteps
         await _googleStepsActions.GoogleMapsToBeDisplayedIn(language);
     }
 
-    [Given("the user continues by denying Google cookies")]
-    [When("the user continues by denying Google cookies")]
-    public async Task UserContinuesByDenyingGoogleCookies()
+    [Given("the user is on Google Maps Page")]
+    [When("the user is on Google Maps Page")]
+    public async Task UserIsOnGoogleMapsPage()
     {
         await _commonPageSteps.PageLoads();
-        await UserDeniesGoogleCookies();
-        await _commonPageSteps.PageLoads();
+        await _googleCookiesActions.UserBypassesCookiesPage();
     }
 
     [When("the user clicks the option to deny cookies")]
@@ -41,7 +40,7 @@ public class GoogleSteps
     public async Task UserOpensBurgerMenu()
     {
         await _googleStepsActions.ClickBurgerMenu();
-        await _googleStepsActions.AssertSettingsMenuIsVisible();
+        _googleStepsActions.AssertSettingsMenuIsVisible();
     }
 
     [When("the user clicks on the Language button")]
@@ -147,9 +146,9 @@ public class GoogleSteps
     }
 
     [Then("the user sees the general search input field")]
-    public async Task UserSeesGeneralSearchInputField()
+    public void UserSeesGeneralSearchInputField()
     {
-        await _googleStepsActions.AssertSeesGeneralSearchInputField();
+        _googleStepsActions.AssertSeesGeneralSearchInputField();
     }
 
     [Then("all locations have the rating of {} {float} stars")]

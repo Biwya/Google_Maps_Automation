@@ -2,7 +2,7 @@ Feature: Recreate trips using Google Maps based on June's Journey
 
 Scenario: June's Journey fan plans a trip from Berlin through Google Maps based on the first chapters of the game
     Given the user accesses the 'https://www.google.com/maps' link
-    And the user continues by denying Google cookies
+    And the user is on Google Maps Page
     And google maps is displayed in 'English'
     When the user clicks on Directions button
     And the user inputs 'Wooga office Berlin' location as STARTING_POINT

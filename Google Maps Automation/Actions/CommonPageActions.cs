@@ -52,4 +52,9 @@ public class CommonPageActions
             _page.WaitForTimeoutAsync(waitIntervalMs).Wait();
         }
     }
+
+    public string GetCurrentURL()
+    {
+        return _page.Url;
+    }
 }
