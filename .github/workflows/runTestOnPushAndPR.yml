@@ -10,19 +10,20 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  playwright:
+    name: 'Google Maps Automation'
     runs-on: ubuntu-latest
-
+    container:
+      image: mcr.microsoft.com/playwright/dotnet:v1.42.0-jammy
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Build
-      run: dotnet build
-    - name: Ensure browsers are installed
-      run: pwsh home/runner/work/Google_Maps_Automation/Google_Maps_Automation/Google Maps Automation/bin/Debug/net8.0/playwright.ps1 install --with-deps
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Build project
+        run: dotnet build
+      - name: Run automated tests
+        run: dotnet test
+        env:
+          HOME: /root
