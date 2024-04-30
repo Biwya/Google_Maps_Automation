@@ -1,5 +1,7 @@
+@Functional
 Feature: Check the UI functionality of Google Maps
 
+  @Cookies
   Scenario: The user denies the Google cookies
     Given the user accesses the 'https://www.google.com/maps' link
     When the page loads
@@ -8,6 +10,7 @@ Feature: Check the UI functionality of Google Maps
     And the page loads
     Then the url is 'https://www.google.com/maps'
 
+  @LanguageSelection
   Scenario Outline: The user changes language of the maps
     Given the user accesses the 'https://www.google.com/maps' link
     And the user is on Google Maps Page
@@ -21,6 +24,7 @@ Feature: Check the UI functionality of Google Maps
       | English  |
       | German   |
 
+  @TransportationSelection
   Scenario Outline: The user checks for transport route
     Given the user accesses the 'https://www.google.com/maps' link
     And the user is on Google Maps Page

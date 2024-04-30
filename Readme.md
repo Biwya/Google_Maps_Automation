@@ -40,9 +40,12 @@ The framework supports multiple browsers and headless toggle. By default, the te
 
 In order to change the default configurations on run, please use the following environment variables:
 * BROWSER - for selection of browser. Available options are: chrome, firefox and webkit. Example: `dotnet test -e BROWSER='firefox'`
-* HEADLESS - for turning headless off. Any value except for "true" will turn off the headless mode. Example: `dotnet test -e HEADLESS=false`
+* HEADLESS - for turning headless off. Any value except for "true" will turn off the headless mode. Example: `dotnet test -e HEADLESS=false`  
 
-Combined example: `dotnet test -e BROWSER=firefox -e HEADLESS=false`
+To configure which test are run, the `--filter` command can be run with `TestCategory` parameter. For example, if we want to run the scenarios (in feature files) tagged with `@Functional` tag, then we execute the command `dotnet test --filter TestCategory=Functional`  
+Note that the `@` sign is not required when adding the TestCategory value. For more details: https://docs.reqnroll.net/latest/execution/executing-specific-scenarios.html or https://learn.microsoft.com/en-us/dotnet/core/testing/selective-unit-tests?pivots=nunit
+
+Combined example: `dotnet test -e BROWSER=firefox -e HEADLESS=false --filter TestCategory=JunesJourney`
 
 ---
 
