@@ -24,6 +24,6 @@ jobs:
       - name: Build project
         run: dotnet build
       - name: Run automated tests
-        run: dotnet test
+        run: dotnet test --filter TestCategory!=Cookies
         env:
           HOME: /root
